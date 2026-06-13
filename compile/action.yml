@@ -73,27 +73,28 @@ runs:
         BUILD_ENV: ${{ inputs.build_env }}
       run: |
         RELEASE_NAME="myst-${BUILD_ENV}"
-        touch "./mudroot/myst"
+        echo "Pseudo executable" > "./mudroot/myst"
         mkdir -p ./assets
         cp mudroot/myst "./assets/myst"
         echo "Version dryrun" > "./assets/version.txt" 2>&1 || true
-        echo "Config dryrun" > "./assets/config.txt" 2>&1 || true
+        echo "" >> "./assets/config.txt" 2>&1 || true
+        echo "Config dryrun" >> "./assets/config.txt" 2>&1 || true
         ls -la ./assets
 
-    - name: Prepare release notes
-      id: relnotes
-      shell: bash
-      env:
-        BUILD_ENV: ${{ inputs.build_env }}
-      run: |
-        ls -la ./assets
-        v=`cat  "./assets/version.txt"`
-        c=`cat  "./assets/config.txt"`
-        b="Version: $v\nConfig: $c"
-        b="${b//'%'/'%25'}"                               
-        b="${b//$'\n'/'%0A'}"                             
-        b="${b//$'\r'/'%0D'}"                             
-        echo "RELEASE_BODY=$b" >> "$GITHUB_ENV"          
+    # - name: Prepare release notes
+    #   id: relnotes
+    #   shell: bash
+    #   env:
+    #     BUILD_ENV: ${{ inputs.build_env }}
+    #   run: |
+    #     ls -la ./assets
+    #     v=`cat  "./assets/version.txt"`
+    #     c=`cat  "./assets/config.txt"`
+    #     b="Version: $v\nConfig: $c"
+    #     b="${b//'%'/'%25'}"                               
+    #     b="${b//$'\n'/'%0A'}"                             
+    #     b="${b//$'\r'/'%0D'}"                             
+    #     echo "RELEASE_BODY=$b" >> "$GITHUB_ENV"          
       
     - id: keydb
       uses: pozetroninc/github-action-get-latest-release@master
