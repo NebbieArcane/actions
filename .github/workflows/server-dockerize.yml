@@ -13,14 +13,6 @@ on:
         description: The environment to build
         required: true
         default: devel
-  # workflow_run:
-  #   workflows: ["Build devel"]
-  #   branches: [main]
-  #   types: 
-  #     - completed
-  # push:
-  #   branches:
-  #     - "feature/odb-discovery"
 
 jobs:
   execute:
@@ -40,6 +32,7 @@ jobs:
           echo "MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}"
           echo "MYSQL_PORT: ${{ vars.MYSQL_PORT }}"
           echo "MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}"
+
       # - uses: ./.github/actions/dockerize
       #   with:
       #     token: ${{ secrets.GITHUB_TOKEN }}

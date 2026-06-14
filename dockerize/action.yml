@@ -22,27 +22,16 @@ runs:
   steps:
       - name: Checkout
         uses: actions/checkout@v6  
-      - id: keydb
-        uses: pozetroninc/github-action-get-latest-release@master
+      - name: Download artifact
+        uses: actions/download-artifact@main
         with:
-          repository: ${{ github.repository }}
-          token: ${{ inputs.token }}
-          excludes: ${{ inputs.excludes }}
-      - name: Release info
+          name: ./assets
+          path: ./assets/*
+      - name: Info
         shell: bash
         run: |
-          echo "Release Tag: ${{ steps.keydb.outputs.release }}"
-          echo "Release Id: ${{ steps.keydb.outputs.id }}"
-          echo "Release name: ${{ steps.keydb.outputs.description }}"
-      - uses: dsaltares/fetch-gh-release-asset@master
-        with:
-          file: myst_devel-${{ github.sha }}.tar.gz
-          target:  ${{ steps.keydb.outputs.id }}       
-      
-      - name: Extract tar.gz
-        shell: bash
-        run: |
-          tar -xzf ${{ steps.keydb.outputs.id }}.tar.gz
+          echo "Artifact downloaded"
+          ls -la ./assets        
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v6
@@ -56,6 +45,61 @@ runs:
         shell: bash
         run: |
           echo "Calculated tags: ${{ steps.meta.outputs.tags }}"
+      - name: Generate Dockerfile
+        shell: bash
+        run: |
+          echo "Generating Dockerfile"
+          cat <<EOF > Dockerfile
+          echo "FROM nebbiearcane/mudcompiler:latest" > Dockerfile
+          echo "ENV DEBIAN_FRONTEND=noninteractive" >> Dockerfile
+          echo "ENV DOCKER_BUILD=ON" >> Dockerfile
+          echo "USER root" >> Dockerfile
+          echo "RUN ldconfig" >> Dockerfile
+          echo "WORKDIR /run" >> Dockerfile
+          echo "COPY myst .
+          echo "COPY version.txt .
+          echo "COPY config.txt .
+          echo "ENTRYPOINT ["./myst"]" >> Dockerfile
+          echo "USER root" >> Dockerfile
+          echo "RUN ldconfig" >> Dockerfile
+          echo "WORKDIR /run" >> Dockerfile
+          echo "COPY myst .
+          echo "COPY version.txt .
+          echo "COPY config.txt .
+          echo "ENTRYPOINT ["./myst"]" >> Dockerfile
+          echo "CMD ["-v"]" >> Dockerfile
+          ls -al
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: ./mudrunner
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+
+
+
+      # - id: keydb
+      #   uses: pozetroninc/github-action-get-latest-release@master
+      #   with:
+      #     repository: ${{ github.repository }}
+      #     token: ${{ inputs.token }}
+      #     excludes: ${{ inputs.excludes }}
+      # - name: Release info
+      #   shell: bash
+      #   run: |
+      #     echo "Release Tag: ${{ steps.keydb.outputs.release }}"
+      #     echo "Release Id: ${{ steps.keydb.outputs.id }}"
+      #     echo "Release name: ${{ steps.keydb.outputs.description }}"
+      # - uses: dsaltares/fetch-gh-release-asset@master
+      #   with:
+      #     file: myst_devel-${{ github.sha }}.tar.gz
+      #     target:  ${{ steps.keydb.outputs.id }}       
+      
+      # - name: Extract tar.gz
+      #   shell: bash
+      #   run: |
+      #     tar -xzf ${{ steps.keydb.outputs.id }}.tar.gz
+
 
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v4

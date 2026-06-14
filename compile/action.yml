@@ -76,10 +76,20 @@ runs:
         echo "Pseudo executable" > "./mudroot/myst"
         mkdir -p ./assets
         cp mudroot/myst "./assets/myst"
+
         echo "Version dryrun" > "./assets/config.txt" 2>&1 || true
         echo "" >> "./assets/config.txt" 2>&1 || true
+        echo "Version: ${{ github.ref_name }}" >> "./assets/version.txt" 2>&1 || true
         echo "Config dryrun" >> "./assets/config.txt" 2>&1 || true
         ls -la ./assets
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: ./assets
+        path: ./assets/*
+        overwrite: true
+        if-no-files-found: error
+        retention-days: 1
 
     # - name: Prepare release notes
     #   id: relnotes
@@ -96,13 +106,13 @@ runs:
     #     b="${b//$'\r'/'%0D'}"                             
     #     echo "RELEASE_BODY=$b" >> "$GITHUB_ENV"          
       
-    - id: keydb
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        repository: ${{ github.repository }}
-        token: ${{ inputs.token }}
-        excludes: ${{ inputs.excludes }}    
-    - name: Prepare a release
+    # - id: keydb
+    #   uses: pozetroninc/github-action-get-latest-release@master
+    #   with:
+    #     repository: ${{ github.repository }}
+    #     token: ${{ inputs.token }}
+    #     excludes: ${{ inputs.excludes }}    
+    # - name: Prepare a release
     #   uses: svenstaro/upload-release-action@v2
     #   with:
     #     file_glob: true
@@ -117,14 +127,14 @@ runs:
     #     draft: ${{ inputs.build_env == 'devel'}}
     #     prerelease: ${{ inputs.build_env == 'staging'}}
     #     make_latest: ${{ inputs.build_env == 'production'}}
-      uses: softprops/action-gh-release@v3
-      with:
-        body_path: ./assets/config.txt
-        files: ./assets/*
-        name: ${{ inputs.build_env }}
-        tag_name: ${{ github.ref_name }}
-        # release_id: ${{ steps.keydb.outputs.id }}
-        # overwrite_files: true
-        draft: ${{ inputs.build_env == 'devel'}}
-        prerelease: ${{ inputs.build_env == 'staging'}}
-        make_latest: ${{ inputs.build_env == 'production'}}
+      # uses: softprops/action-gh-release@v3
+      # with:
+      #   body_path: ./assets/config.txt
+      #   files: ./assets/*
+      #   name: ${{ inputs.build_env }}
+      #   tag_name: ${{ github.ref_name }}
+      #   # release_id: ${{ steps.keydb.outputs.id }}
+      #   # overwrite_files: true
+      #   draft: ${{ inputs.build_env == 'devel'}}
+      #   prerelease: ${{ inputs.build_env == 'staging'}}
+      #   make_latest: ${{ inputs.build_env == 'production'}}
