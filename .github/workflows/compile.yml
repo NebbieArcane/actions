@@ -1,8 +1,13 @@
-name: Build devel
+name: Compile
 
 on:
   workflow_call:
     inputs:
+      dryrun:
+        type: boolean
+        description: Dry run
+        required: false
+        default: true
       build_env:
         type: string
         description: The environment to build
@@ -23,7 +28,7 @@ jobs:
     steps:
       - uses: NebbieArcane/Actions/compile@main
         with:
-          build_env: devel
+          build_env: ${{ inputs.build_env }}
           mysql_host: ${{ vars.MYSQL_HOST }}
           mysql_user: ${{ vars.MYSQL_USER }}
           mysql_db: ${{ vars.MYSQL_DB }}
@@ -31,6 +36,6 @@ jobs:
           mysql_port: ${{ vars.MYSQL_PORT }}
           token: ${{ secrets.GITHUB_TOKEN }}
           excludes: latest,prerelease,release
-          dryrun: true
+          dryrun: ${{ inputs.dryrun }}
       
             
