@@ -85,7 +85,7 @@ runs:
     - name: Upload artifact
       uses: actions/upload-artifact@main
       with:
-        name: ./assets
+        name: assets
         path: ./assets/*
         overwrite: true
         if-no-files-found: error
