@@ -18,7 +18,7 @@ runs:
         shell: bash
         run: |
           echo "Artifact downloaded"
-          ls -la ./assets        
+          ls -la        
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v6
@@ -55,7 +55,7 @@ runs:
         uses: docker/build-push-action@v7
         with:
           context: ./
-          push: false
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
 
 
