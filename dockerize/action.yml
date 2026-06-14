@@ -13,7 +13,7 @@ runs:
         uses: actions/download-artifact@main
         with:
           name: assets
-          path: ./assets/*
+          path: ./
       - name: Info
         shell: bash
         run: |
@@ -23,10 +23,9 @@ runs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: |
-            myst
+          images: nebbiearcane/myst_${{ inputs.build_env }}
           tags: |
-            type=custom,pattern={{ inputs.tag }}
+            inputs.build_env
             type=semver,pattern={{version}}
       - name: Calculated tags
         shell: bash
@@ -55,7 +54,7 @@ runs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          context: ./mudrunner
+          context: ./
           push: false
           tags: ${{ steps.meta.outputs.tags }}
 
