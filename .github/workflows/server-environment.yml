@@ -8,8 +8,18 @@ on:
         description: Dry run
         required: false
         default: true
+    outputs:
+      selected_env:
+        description: Target build environment (devel, staging, production, ignore)
+        value: ${{ jobs.def.outputs.selected_env }}
+      pullrequest:
+        description: Pull request payload from gh-find-current-pr
+        value: ${{ jobs.def.outputs.pullrequest }}
+      milestone:
+        description: Milestone title from the open pull request
+        value: ${{ jobs.def.outputs.milestone }}
 
-jobs:  
+jobs:
   def:
     runs-on: ubuntu-latest
     outputs:
