@@ -33,10 +33,6 @@ jobs:
           echo "MYSQL_PORT: ${{ vars.MYSQL_PORT }}"
           echo "MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}"
 
-      - uses: ./.github/actions/dockerize
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          excludes: latest,prerelease
       - uses: NebbieArcane/Actions/dockerize@main
         with:
           build_env: ${{ inputs.build_env }}
