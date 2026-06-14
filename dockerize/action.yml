@@ -1,22 +1,9 @@
 name: dockerize
 description: Builds a container with myst binary and upload workflow artifact
 inputs:
-  artifact:
-    description: Artifact name
+  build_env:
+    description: Environment name passed to build.sh
     required: true
-  image:
-    description: Image name
-    required: true
-  tag:
-    description: Tag name
-    required: true
-  token:
-    description: GitHub token
-    required: true
-  excludes:
-    description: Excludes
-    required: true
-    default: latest,prerelease
 runs:
   using: composite
   steps:
@@ -56,17 +43,13 @@ runs:
           echo "USER root" >> Dockerfile
           echo "RUN ldconfig" >> Dockerfile
           echo "WORKDIR /run" >> Dockerfile
-          echo "COPY myst .
-          echo "COPY version.txt .
-          echo "COPY config.txt .
-          echo "ENTRYPOINT ["./myst"]" >> Dockerfile
+          echo "COPY myst /run/myst_${{ inputs.build_env }}" >> Dockerfile
+          echo "COPY version.txt /run" >> Dockerfile
+          echo "COPY config.txt /run" >> Dockerfile
           echo "USER root" >> Dockerfile
           echo "RUN ldconfig" >> Dockerfile
           echo "WORKDIR /run" >> Dockerfile
-          echo "COPY myst .
-          echo "COPY version.txt .
-          echo "COPY config.txt .
-          echo "ENTRYPOINT ["./myst"]" >> Dockerfile
+          echo "ENTRYPOINT ["./myst_${{ inputs.build_env }}"]" >> Dockerfile
           echo "CMD ["-v"]" >> Dockerfile
           ls -al
       - name: Build and push
