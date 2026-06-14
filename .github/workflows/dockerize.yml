@@ -3,6 +3,11 @@ name: Dockerize common
 on:
   workflow_call:
     inputs:
+      dryrun:
+        type: boolean
+        description: Dry run
+        required: false
+        default: false
       build_env:
         type: string
         description: The environment to build
