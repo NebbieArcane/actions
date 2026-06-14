@@ -76,7 +76,7 @@ runs:
         echo "Pseudo executable" > "./mudroot/myst"
         mkdir -p ./assets
         cp mudroot/myst "./assets/myst"
-        echo "Version dryrun" > "./assets/version.txt" 2>&1 || true
+        echo "Version dryrun" > "./assets/config.txt" 2>&1 || true
         echo "" >> "./assets/config.txt" 2>&1 || true
         echo "Config dryrun" >> "./assets/config.txt" 2>&1 || true
         ls -la ./assets
