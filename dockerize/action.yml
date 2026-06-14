@@ -35,7 +35,6 @@ runs:
         shell: bash
         run: |
           echo "Generating Dockerfile"
-          cat <<EOF > Dockerfile
           echo "FROM nebbiearcane/mudcompiler:latest" > Dockerfile
           echo "ENV DEBIAN_FRONTEND=noninteractive" >> Dockerfile
           echo "ENV DOCKER_BUILD=ON" >> Dockerfile
