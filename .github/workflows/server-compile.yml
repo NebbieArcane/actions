@@ -15,7 +15,7 @@ on:
         default: devel
 
 jobs:
-  build:
+  execute:
     environment:
       name: ${{ inputs.build_env }}
       deployment: false

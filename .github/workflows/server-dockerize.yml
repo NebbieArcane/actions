@@ -23,7 +23,7 @@ on:
   #     - "feature/odb-discovery"
 
 jobs:
-  build:
+  execute:
     environment:
       name: ${{ inputs.build_env }}
       deployment: false

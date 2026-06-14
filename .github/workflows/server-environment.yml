@@ -1,4 +1,4 @@
-name: Compile
+name: Environment
 
 on:
   workflow_call:
@@ -13,9 +13,9 @@ jobs:
   def:
     runs-on: ubuntu-latest
     outputs:
-      selected_env: ${{ steps.def.outputs.selected_env }}
       pullrequest: ${{ steps.findr.outputs.pr }}
       milestone: ${{ steps.ms.outputs.milestone }}
+      selected_env: ${{ steps.def.outputs.selected_env }}
     steps:
       - name: Find pull request
         id: findr
@@ -42,7 +42,6 @@ jobs:
       - id: def
         name: Environment setup
         env:  
-          
           PR: ${{ steps.findr.outputs.pr }}
           MILESTONE: ${{ steps.ms.outputs.milestone }}
           PR_NUMBER: ${{ steps.findr.outputs.number }}
@@ -87,4 +86,3 @@ jobs:
           fi
           echo "SELECTED_ENV: $SELECTED_ENV"
           echo "selected_env=$SELECTED_ENV" >> "$GITHUB_OUTPUT"
-          echo "selected_env=ignore" >> "$GITHUB_OUTPUT"
