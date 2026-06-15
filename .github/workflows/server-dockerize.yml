@@ -1,5 +1,9 @@
 name: Dockerize common
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   workflow_call:
     inputs:
@@ -15,6 +19,7 @@ on:
         default: devel
 
 jobs:
+    
   execute:
     environment:
       name: ${{ inputs.build_env }}
