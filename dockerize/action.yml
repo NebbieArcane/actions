@@ -32,7 +32,7 @@ runs:
             ${{ inputs.build_env }}
             type=semver,pattern={{version}}
             latest
-            type=ref,event=push
+            type=ref,event=branch
             # tag event
             type=ref,event=tag
             # pull request event
