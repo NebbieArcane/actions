@@ -36,5 +36,5 @@ jobs:
       - uses: NebbieArcane/Actions/dockerize@main
         with:
           build_env: ${{ inputs.build_env }}
-
+          token: ${{ secrets.GITHUB_TOKEN }}
             
