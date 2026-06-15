@@ -31,6 +31,13 @@ runs:
           tags: |
             ${{ inputs.build_env }}
             type=semver,pattern={{version}}
+            latest
+            type=ref,event=push
+            # tag event
+            type=ref,event=tag
+            # pull request event
+            type=ref,event=pr            
+
       - name: Calculated tags
         shell: bash
         run: |
@@ -50,8 +57,9 @@ runs:
           echo "COPY config.txt /run" >> Dockerfile
           echo "USER root" >> Dockerfile
           echo "RUN ldconfig" >> Dockerfile
-          echo "WORKDIR /run" >> Dockerfile
-          echo "ENTRYPOINT ["./myst_${{ inputs.build_env }}"]" >> Dockerfile
+          echo 'WORKDIR ["/run"]' >> Dockerfile
+          echo 'LABEL org.opencontainers.image.description="Nebbie Arcane ${{ inputs.build_env }} server"' >> Dockerfile
+          echo 'ENTRYPOINT ["./myst_${{ inputs.build_env }}"]'' >> Dockerfile
           echo "CMD ["-v"]" >> Dockerfile
           ls -al
 
