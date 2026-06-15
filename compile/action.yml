@@ -45,10 +45,9 @@ runs:
       shell: bash
       run: |
         echo "Base ref: ${{ github.ref }}"
-        echo "DEVEL_BRANCH: ${{ github.vars.DEVEL_BRANCH }}"
 
     - name: Compile myst
-      if: ${{ inputs.dryrun == false}}
+      if: ${{ !inputs.dryrun }}
       shell: bash
       env:
         MYSQL_HOST: ${{ inputs.mysql_host }}
