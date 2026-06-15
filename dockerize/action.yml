@@ -61,7 +61,7 @@ runs:
           echo 'LABEL org.opencontainers.image.title="Myst_${{ inputs.build_env }} server"' >> Dockerfile
           echo 'LABEL org.opencontainers.image.description="Nebbie Arcane ${{ inputs.build_env }} server"' >> Dockerfile
           echo 'ENTRYPOINT ["./myst_${{ inputs.build_env }}"]' >> Dockerfile
-          echo "CMD ["-v"]" >> Dockerfile
+          echo "CMD ["-V"]" >> Dockerfile
           ls -al
 
       - name: Set up Docker Buildx
