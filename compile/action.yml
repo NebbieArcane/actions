@@ -62,8 +62,7 @@ runs:
         chmod +x "./mudroot/myst"
         mkdir -p ./assets
         cp mudroot/myst "./assets/myst"
-        ./mudroot/myst -V > "./assets/config.txt" 2>&1 || true
-        echo "" >> "./assets/version.txt" 2>&1 || true 
+        ./mudroot/myst -V > "./assets/version.txt" 2>&1 || true
         ./mudroot/myst -c >> "./assets/config.txt" 2>&1 || true
 
     - name: Fake compile release binary
