@@ -29,7 +29,7 @@ runs:
         with:
           images: nebbiearcane/myst_${{ inputs.build_env }}
           tags: |
-            inputs.build_env
+            ${{ inputs.build_env }}
             type=semver,pattern={{version}}
       - name: Calculated tags
         shell: bash
@@ -60,7 +60,7 @@ runs:
         with:
           context: ./
           push: true
-          tags:  nebbiearcane/myst_${{ inputs.build_env }}:${{ steps.meta.outputs.tags }}
+          tags:  ${{ steps.meta.outputs.tags }}
 
 
 
