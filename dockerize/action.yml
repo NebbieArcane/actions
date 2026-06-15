@@ -4,6 +4,10 @@ inputs:
   build_env:
     description: Environment name passed to build.sh
     required: true
+  token:
+    description: GitHub token
+    required: false
+    default: "none"
 runs:
   using: composite
   steps:
@@ -50,10 +54,18 @@ runs:
           echo "ENTRYPOINT ["./myst_${{ inputs.build_env }}"]" >> Dockerfile
           echo "CMD ["-v"]" >> Dockerfile
           ls -al
+      - name: Login to git registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ inputs.token }} 
+
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           context: ./
+          image: nebbiearcane/myst_${{ inputs.build_env }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
