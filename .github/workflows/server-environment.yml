@@ -98,9 +98,7 @@ jobs:
             elif [ "$REF_NAME" == "release/*" ]; then
               SELECTED_ENV=staging
             elif [ "$REF_NAME" == "feature/*" ]; then
-              SELECTED_ENV=staging
-            else
-              if [ "$REF_NAME" == "$DEVEL_BRANCH" ]; then
+              if [ -n "$PR_NUMBER"]
                 SELECTED_ENV=devel
               fi
             fi
