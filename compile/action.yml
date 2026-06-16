@@ -45,9 +45,18 @@ runs:
       shell: bash
       run: |
         echo "Base ref: ${{ github.ref }}"
+        echo "Build env: ${{ inputs.build_env }}"
+        echo "Dry run: ${{ inputs.dryrun }}"
+        echo "Excludes: ${{ inputs.excludes }}"
+        echo "Token: ${{ inputs.token }}"
+        echo "MySQL host: ${{ inputs.mysql_host }}"
+        echo "MySQL user: ${{ inputs.mysql_user }}"
+        echo "MySQL password: ${{ inputs.mysql_password }}"
+        echo "MySQL port: ${{ inputs.mysql_port }}"
+        echo "MySQL db: ${{ inputs.mysql_db }}"
 
     - name: Compile myst
-      if: ${{ !inputs.dryrun }}
+      if: ${{ inputs.dryrun != true }}
       shell: bash
       env:
         MYSQL_HOST: ${{ inputs.mysql_host }}
