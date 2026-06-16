@@ -75,7 +75,7 @@ runs:
 
     - name: Fake compile release binary
       shell: bash
-      if: ${{ inputs.dryrun }}
+      if: ${{ inputs.dryrun == true }}
       env:
         BUILD_ENV: ${{ inputs.build_env }}
       run: |
