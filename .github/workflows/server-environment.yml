@@ -7,7 +7,7 @@ on:
         type: boolean
         description: Dry run
         required: false
-        default: true
+        default: false
       build_env:
         type: string
         description: The environment to build
@@ -71,7 +71,6 @@ jobs:
           REF_ACTOR: ${{ github.actor }}
           REF_AUTHOR: ${{ github.event.pusher.name }}
           REF_AUTHOR_EMAIL: ${{ github.event.pusher.email }}
-          DEVEL_BRANCH: ${{ vars.DEVEL_BRANCH }}
         shell: bash
         run: |
           echo "FORCE_ENV: $FORCE_ENV"
