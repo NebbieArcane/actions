@@ -63,6 +63,7 @@ runs:
           echo 'ENTRYPOINT ["/run/myst_${{ inputs.build_env }}"]' >> Dockerfile
           echo "CMD ["-V"]" >> Dockerfile
           ls -al
+          cat Dockerfile
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
