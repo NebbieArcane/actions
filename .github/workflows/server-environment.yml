@@ -93,12 +93,19 @@ jobs:
             SELECTED_ENV=$FORCE_ENV
           else
             if [ "$REF_TYPE" == "tag" ] ; then
+              echo "Ref type is tag"
               SELECTED_ENV=production
             elif [ "$REF_NAME" == "release/*" ] ; then
+              echo "Ref name is release/*"
               SELECTED_ENV=staging
             elif [ "$REF_NAME" == "feature/*" ] ; then
-              if [ -n "$PR_NUMBER"] ; then
+              echo "Ref name is feature/*"
+              if [ -n "$PR_NUMBER" ] ; then
+                echo "PR_NUMBER '$PR_NUMBER' is not empty"
                 SELECTED_ENV=devel
+              else
+                echo "PR_NUMBER '$PR_NUMBER' is empty"
+                SELECTED_ENV=ignore
               fi
             fi
           fi
