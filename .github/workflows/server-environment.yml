@@ -90,6 +90,7 @@ jobs:
           echo "DEVEL_BRANCH: $DEVEL_BRANCH"
           SELECTED_ENV=ignore
           if [ "$FORCE_ENV" != "ignore" ] ; then
+            echo "FORCE_ENV '$FORCE_ENV' is not ignore"
             SELECTED_ENV=$FORCE_ENV
           else
             if [ "$REF_TYPE" == "tag" ] ; then
