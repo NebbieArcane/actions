@@ -92,6 +92,7 @@ runs:
       run: |
         git config --global --add safe.directory /__w/Server/Server
         case "${{ github.ref_name }}" in
+          r[0-9]*) export TAG="${{ github.ref_name }}"; TAG="${TAG#}" ;;
           release/*) export TAG="${{ github.ref_name }}"; TAG="${TAG#release/}-beta" ;;
           *) export TAG="" ;;
         esac
