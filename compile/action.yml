@@ -95,6 +95,9 @@ runs:
           release/*) export TAG="${{ github.ref_name }}"; TAG="${TAG#release/}-beta" ;;
           *) export TAG="" ;;
         esac
+        if [ "${{ github.event_name }}" = 'tag' ]; then
+          export TAG="${{ github.ref_name }}"
+        fi
         echo "TAG: $TAG"
         ./build.sh "${{ inputs.build_env }}"
         chmod +x "./mudroot/myst"

@@ -79,7 +79,7 @@ jobs:
             SELECTED_ENV=$FORCE_ENV
           elif [ "$REF_TYPE" = "tag" ]; then
             echo "Ref type is tag"
-            SELECTED_ENV=production
+            SELECTED_ENV=release
           else
             case "$REF_NAME" in
               release/*)
