@@ -102,6 +102,8 @@ runs:
         echo "TAG: $TAG"
         ./build.sh "${{ inputs.build_env }}"
         chmod +x "./mudroot/myst"
+        echo ":rocket: Compilation successfully completed" >> "$GITHUB_STEP_SUMMARY"
+        ./mudroot/myst -V >> "$GITHUB_STEP_SUMMARY" 
         mkdir -p ./assets
         cp mudroot/myst "./assets/myst"
         ./mudroot/myst -V > "./assets/version.txt" 2>&1 || true
