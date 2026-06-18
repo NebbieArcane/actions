@@ -12,7 +12,7 @@ on:
         type: string
         description: The environment to build
         required: true
-        default: ignore
+        default: auto
     outputs:
       selected_env:
         description: Target build environment (devel, staging, production, ignore)

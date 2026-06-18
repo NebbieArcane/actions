@@ -66,7 +66,6 @@ runs:
             core.info(`A maintainer needs to set the milestone for this pull request.`);
           }          
 
-
     - name: Info
       shell: bash
       run: |
@@ -92,6 +91,11 @@ runs:
         MYSQL_DB: ${{ inputs.mysql_db }}
       run: |
         git config --global --add safe.directory /__w/Server/Server
+        case "${{ github.ref_name }}" in
+          release/*) export TAG="${{ github.ref_name }}"; TAG="${TAG#release/}-beta" ;;
+          *) export TAG="" ;;
+        esac
+        echo "TAG: $TAG"
         ./build.sh "${{ inputs.build_env }}"
         chmod +x "./mudroot/myst"
         mkdir -p ./assets
