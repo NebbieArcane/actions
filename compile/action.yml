@@ -36,10 +36,36 @@ inputs:
     description: GitHub token
     required: false
     default: "none"
+  pr_id:
+    description: Pull request ID
+    required: false
+    default: ''
+  pr_title:
+    description: Pull request title
+    required: false
+    default: ''
 runs:
   using: composite
   steps:
     - uses: actions/checkout@v4
+    - name: Find milestone
+      id: ms
+      if: inputs.pr_id != '' 
+      uses: actions/github-script@main
+      with:
+        script: |
+          const { data } = await github.request("GET /repos/{owner}/{repo}/pulls/{pr}", {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pr: ${{ inputs.pr_id }}
+          });
+          if (data.milestone) {
+            core.info(`This pull request has a milestone set: ${data.milestone.title}`);
+            core.setOutput("milestone", data.milestone.title);
+          } else {
+            core.info(`A maintainer needs to set the milestone for this pull request.`);
+          }          
+
 
     - name: Info
       shell: bash

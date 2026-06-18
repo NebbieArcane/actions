@@ -13,6 +13,21 @@ on:
         description: The environment to build
         required: true
         default: devel
+      pr_id:
+        type: string
+        description: Pull request ID
+        required: false
+        default: ''
+      pr_title:
+        type: string
+        description: Pull request title
+        required: false
+        default: ''
+      pr_body:
+        type: string
+        description: Pull request body
+        required: false
+        default: ''
 
 jobs:
   execute:
@@ -25,6 +40,9 @@ jobs:
       options: --entrypoint ""
     env:
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      PR_ID: ${{ inputs.pr_id }}
+      PR_TITLE: ${{ inputs.pr_title }}
+      PR_BODY: ${{ inputs.pr_body }}
     steps:
       - uses: NebbieArcane/Actions/compile@main
         with:
@@ -37,5 +55,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           excludes: latest,prerelease,release
           dryrun: ${{ inputs.dryrun }}
+          pr_id: ${{ inputs.pr_id }}
+          pr_title: ${{ inputs.pr_title }}
+          pr_body: ${{ inputs.pr_body }}
       
             

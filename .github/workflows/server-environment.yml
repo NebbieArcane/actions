@@ -17,19 +17,23 @@ on:
       selected_env:
         description: Target build environment (devel, staging, production, ignore)
         value: ${{ jobs.def.outputs.selected_env }}
-      pullrequest:
-        description: Pull request payload from gh-find-current-pr
-        value: ${{ jobs.def.outputs.pullrequest }}
-      milestone:
-        description: Milestone title from the open pull request
-        value: ${{ jobs.def.outputs.milestone }}
+      pr_id:
+        description: Pull request ID from gh-find-current-pr
+        value: ${{ jobs.def.outputs.pr_id }}
+      pr_title:
+        description: Pull request title from gh-find-current-pr
+        value: ${{ jobs.def.outputs.pr_title }}
+      pr_body:
+        description: Pull request body from gh-find-current-pr
+        value: ${{ jobs.def.outputs.pr_body }}
 
 jobs:
   def:
     runs-on: ubuntu-latest
     outputs:
-      pullrequest: ${{ steps.findr.outputs.pr }}
-      milestone: ${{ steps.ms.outputs.milestone }}
+      pr_id: ${{ steps.findr.outputs.number }}
+      pr_title: ${{ steps.findr.outputs.title }}
+      pr_body: ${{ steps.findr.outputs.body }}
       selected_env: ${{ steps.def.outputs.selected_env }}
     steps:
       - name: Find pull request
@@ -37,23 +41,6 @@ jobs:
         uses: jwalton/gh-find-current-pr@master
         with:
           state: open
-      - name: Find milestone
-        id: ms
-        if: steps.findr.outputs.number != ''
-        uses: actions/github-script@main
-        with:
-          script: |
-            const { data } = await github.request("GET /repos/{owner}/{repo}/pulls/{pr}", {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pr: ${{ steps.findr.outputs.number }}
-            });
-            if (data.milestone) {
-              core.info(`This pull request has a milestone set: ${data.milestone.title}`);
-              core.setOutput("milestone", data.milestone.title);
-            } else {
-              core.info(`A maintainer needs to set the milestone for this pull request.`);
-            }          
       - id: def
         name: Environment setup
         env:  
@@ -86,7 +73,6 @@ jobs:
           echo "REF_ACTOR: $REF_ACTOR"
           echo "REF_AUTHOR: $REF_AUTHOR"
           echo "REF_AUTHOR_EMAIL: $REF_AUTHOR_EMAIL"
-          echo "DEVEL_BRANCH: $DEVEL_BRANCH"
           SELECTED_ENV=ignore
           if [ "$FORCE_ENV" != "auto" ]; then
             echo "FORCE_ENV '$FORCE_ENV' is not auto"
