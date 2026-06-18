@@ -74,6 +74,10 @@ jobs:
           echo "REF_AUTHOR: $REF_AUTHOR"
           echo "REF_AUTHOR_EMAIL: $REF_AUTHOR_EMAIL"
           SELECTED_ENV=ignore
+
+          if [ -z "$FORCE_ENV" ]; then
+            FORCE_ENV=auto
+          fi
           if [ "$FORCE_ENV" != "auto" ]; then
             echo "FORCE_ENV '$FORCE_ENV' is not auto"
             SELECTED_ENV=$FORCE_ENV
