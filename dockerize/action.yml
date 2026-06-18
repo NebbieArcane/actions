@@ -58,10 +58,12 @@ runs:
           echo "USER root" >> Dockerfile
           echo "RUN chmod +x /run/myst*" >> Dockerfile
           echo 'WORKDIR ["/run"]' >> Dockerfile
+          echo 'RUN sysctl kernel.core_pattern=/var/crash/core-%e-%p' >> Dockerfile
+          echo 'RUN ulimit -c unlimited' >> Dockerfile
           echo 'LABEL org.opencontainers.image.title="Myst_${{ inputs.build_env }} server"' >> Dockerfile
           echo 'LABEL org.opencontainers.image.description="Nebbie Arcane ${{ inputs.build_env }} server"' >> Dockerfile
           echo 'ENTRYPOINT ["/run/myst_${{ inputs.build_env }}"]' >> Dockerfile
-          echo "CMD ["-V"]" >> Dockerfile
+          echo 'CMD ["-V"]' >> Dockerfile
           ls -al
           cat Dockerfile
 
