@@ -61,7 +61,7 @@ runs:
           echo "COPY myst /run/myst_${{ inputs.build_env }}" >> Dockerfile
           echo "COPY version.txt /run" >> Dockerfile
           echo "COPY config.txt /run" >> Dockerfile
-          echo "COPY pages /run/pages" >> Dockerfile
+          echo "COPY Server/Pages /run/pages" >> Dockerfile
           echo "USER root" >> Dockerfile
           echo "RUN chmod +x /run/myst*" >> Dockerfile
           echo 'WORKDIR ["/run"]' >> Dockerfile
