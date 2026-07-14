@@ -8,11 +8,17 @@ inputs:
     description: GitHub token
     required: false
     default: "none"
+  server_repo:
+    description: Server repository to clone for pages
+    required: false
+    default: ${{ github.repository }}
 runs:
   using: composite
   steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          repository: ${{ inputs.server_repo }}
       - name: Download artifact
         uses: actions/download-artifact@main
         with:
@@ -55,7 +61,7 @@ runs:
           echo "COPY myst /run/myst_${{ inputs.build_env }}" >> Dockerfile
           echo "COPY version.txt /run" >> Dockerfile
           echo "COPY config.txt /run" >> Dockerfile
-          echo "COPY Pages /run/pages" >> Dockerfile
+          echo "COPY pages /run/pages" >> Dockerfile
           echo "USER root" >> Dockerfile
           echo "RUN chmod +x /run/myst*" >> Dockerfile
           echo 'WORKDIR ["/run"]' >> Dockerfile
