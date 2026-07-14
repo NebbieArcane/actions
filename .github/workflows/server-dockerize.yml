@@ -43,4 +43,5 @@ jobs:
         with:
           build_env: ${{ inputs.build_env }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          server_repo: ${{ github.repository }}
             
