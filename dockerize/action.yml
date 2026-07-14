@@ -11,8 +11,8 @@ inputs:
 runs:
   using: composite
   steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v6  
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Download artifact
         uses: actions/download-artifact@main
         with:
@@ -55,6 +55,7 @@ runs:
           echo "COPY myst /run/myst_${{ inputs.build_env }}" >> Dockerfile
           echo "COPY version.txt /run" >> Dockerfile
           echo "COPY config.txt /run" >> Dockerfile
+          echo "COPY pages /run/pages" >> Dockerfile
           echo "USER root" >> Dockerfile
           echo "RUN chmod +x /run/myst*" >> Dockerfile
           echo 'WORKDIR ["/run"]' >> Dockerfile
